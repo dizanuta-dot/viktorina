@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>中国商务礼仪小测验</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5b6578;
+      --red: #9e1b1b;
+      --blue: #1f4e79;
+      --gold: #b8872e;
+      --line: #d9dee8;
+      --pale: #f6f8fb;
+      --ok: #176b3a;
+      --bad: #a52828;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    main {
+      max-width: 980px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 40px 28px 28px;
+      display: grid;
+      align-content: center;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 16px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .progress {
+      min-width: 128px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--red);
+      font-size: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      padding: 26px;
+      box-shadow: 0 10px 30px rgba(23, 32, 51, 0.06);
+    }
+
+    .question-zh {
+      font-size: clamp(24px, 3.2vw, 34px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .pinyin {
+      color: var(--blue);
+      font-size: 17px;
+      margin-bottom: 18px;
+    }
+
+    .question-ru {
+      background: var(--pale);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: 19px;
+      line-height: 1.4;
+      margin-bottom: 22px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .answer {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      padding: 16px 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.15s ease;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .answer:hover {
+      border-color: var(--blue);
+      background: #f8fbff;
+    }
+
+    .letter {
+      color: white;
+      background: var(--blue);
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .answer-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .answer-ru {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .answer.correct {
+      border-color: rgba(23, 107, 58, 0.55);
+      background: #f1fbf5;
+    }
+
+    .answer.correct .letter { background: var(--ok); }
+
+    .answer.wrong {
+      border-color: rgba(165, 40, 40, 0.55);
+      background: #fff5f5;
+    }
+
+    .answer.wrong .letter { background: var(--bad); }
+
+    .feedback {
+      margin-top: 20px;
+      border-left: 5px solid var(--gold);
+      background: #fffaf0;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 18px;
+      line-height: 1.42;
+      display: none;
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .primary {
+      border: 0;
+      background: var(--red);
+      color: white;
+      padding: 13px 22px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .secondary {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .score {
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .hidden { display: none; }
+
+    .result {
+      text-align: center;
+      padding: 36px 26px;
+    }
+
+    .chengyu {
+      margin: 24px auto;
+      max-width: 560px;
+      border: 1px solid #f1cfc7;
+      background: #fff5f3;
+      border-radius: 8px;
+      padding: 22px;
+    }
+
+    .chengyu strong {
+      display: block;
+      color: var(--red);
+      font-size: 46px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 720px) {
+      main { padding: 22px 14px; }
+      .topline { align-items: flex-start; }
+      .progress { min-width: auto; font-size: 16px; }
+      .card { padding: 18px; }
+      .actions { flex-direction: column; align-items: stretch; }
+      .primary, .secondary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="quiz">
+      <div class="topline">
+        <div>
+          <h1>中国商务礼仪小测验</h1>
+          <div class="subtitle">Мини-викторина по невербальной коммуникации в китайской деловой культуре</div>
+        </div>
+        <div class="progress" id="progress">1 / 5</div>
+      </div>
+
+      <div class="card">
+        <div class="question-zh" id="questionZh"></div>
+        <div class="pinyin" id="pinyin"></div>
+        <div class="question-ru" id="questionRu"></div>
+        <div class="answers" id="answers"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="actions">
+          <button class="secondary" id="restart" type="button">Начать заново</button>
+          <div class="score" id="score">Счёт: 0</div>
+          <button class="primary" id="next" type="button" disabled>Следующий вопрос</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="result" class="card result hidden">
+      <h1>测验结束！</h1>
+      <div class="subtitle">Викторина завершена</div>
+      <div class="chengyu">
+        <strong>不言而喻</strong>
+        <div>Bù yán ér yù</div>
+        <div>Понятно и без объяснений</div>
+      </div>
+      <p id="finalScore"></p>
+      <button class="primary" id="again" type="button">Пройти ещё раз</button>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        zh: "在中国商务文化中，什么也属于非言语沟通？",
+        pinyin: "Zài Zhōngguó shāngwù wénhuà zhōng, shénme yě shǔyú fēi yányǔ gōutōng?",
+        ru: "Что в китайской деловой культуре тоже относится к невербальной коммуникации?",
+        answers: [
+          ["A", "只有手势和表情", "Только жесты и мимика"],
+          ["B", "只有合同文本", "Только текст договора"],
+          ["C", "座位安排、迎送、合影和接待形式", "Рассадка, встреча гостей, фото и формат приёма"],
+          ["D", "只有价格谈判", "Только переговоры о цене"]
+        ],
+        correct: "C",
+        explain: "礼仪安排不用语言，也能表达尊重和合作诚意。 Этикетные действия без слов выражают уважение и серьёзность намерений."
+      },
+      {
+        zh: "会见 huìjiàn 在商务环境中主要是什么意思？",
+        pinyin: "Huìjiàn zài shāngwù huánjìng zhōng zhǔyào shì shénme yìsi?",
+        ru: "Что означает 会见 huìjiàn в деловом контексте?",
+        answers: [
+          ["A", "正式签合同", "Официальное подписание договора"],
+          ["B", "第一次见面、礼貌拜访、建立关系", "Первая встреча, вежливый визит, установление отношений"],
+          ["C", "工作午餐", "Рабочий обед"],
+          ["D", "拍合影", "Совместное фото"]
+        ],
+        correct: "B",
+        explain: "会见更强调礼貌接触和关系建立。 会见 больше связано с вежливым контактом и установлением отношений."
+      },
+      {
+        zh: "为什么会谈各方的职务最好比较对等？",
+        pinyin: "Wèishénme huìtán gèfāng de zhíwù zuìhǎo bǐjiào duìděng?",
+        ru: "Почему желательно, чтобы должности участников переговоров были сопоставимыми?",
+        answers: [
+          ["A", "为了让会谈更快结束", "Чтобы переговоры быстрее закончились"],
+          ["B", "为了减少翻译人数", "Чтобы было меньше переводчиков"],
+          ["C", "为了表示尊重和合作诚意", "Чтобы показать уважение и серьёзность намерений"],
+          ["D", "这是只用于政治访问的规则", "Это правило только для политических визитов"]
+        ],
+        correct: "C",
+        explain: "级别相近表示双方互相尊重，也说明合作很重要. Сопоставимый уровень показывает взаимное уважение и важность сотрудничества."
+      },
+      {
+        zh: "合影通常安排在什么时候？",
+        pinyin: "Héyǐng tōngcháng ānpái zài shénme shíhou?",
+        ru: "Когда обычно делают совместное фото на официальной встрече?",
+        answers: [
+          ["A", "握手之前", "До рукопожатия"],
+          ["B", "握手之后、会见开始之前", "После рукопожатия и до начала встречи"],
+          ["C", "只在签合同之后", "Только после подписания договора"],
+          ["D", "工作餐的时候", "Во время рабочего обеда"]
+        ],
+        correct: "B",
+        explain: "正式会见中，如果安排合影，通常在握手之后、会见开始之前。 В официальном формате фото обычно делают после рукопожатия и до начала встречи."
+      },
+      {
+        zh: "成语“不言而喻”是什么意思？",
+        pinyin: "Chéngyǔ “bù yán ér yù” shì shénme yìsi?",
+        ru: "Что означает чэнъюй 不言而喻 bù yán ér yù?",
+        answers: [
+          ["A", "一步一步来", "Двигаться шаг за шагом"],
+          ["B", "尊重比语言重要", "Уважение важнее слов"],
+          ["C", "不用解释，也能明白", "Понятно и без объяснений"],
+          ["D", "好茶比好话重要", "Хороший чай важнее хорошей речи"]
+        ],
+        correct: "C",
+        explain: "不言而喻 means “понятно и без объяснений”. В презентации это связано с идеей: этикет безмолвен, но уважение видно."
+      }
+    ];
+
+    let index = 0;
+    let score = 0;
+    let locked = false;
+
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+    const progress = document.getElementById("progress");
+    const questionZh = document.getElementById("questionZh");
+    const pinyin = document.getElementById("pinyin");
+    const questionRu = document.getElementById("questionRu");
+    const answers = document.getElementById("answers");
+    const feedback = document.getElementById("feedback");
+    const next = document.getElementById("next");
+    const scoreBox = document.getElementById("score");
+    const finalScore = document.getElementById("finalScore");
+
+    function render() {
+      const q = questions[index];
+      locked = false;
+      progress.textContent = `${index + 1} / ${questions.length}`;
+      questionZh.textContent = q.zh;
+      pinyin.textContent = q.pinyin;
+      questionRu.textContent = q.ru;
+      answers.innerHTML = "";
+      feedback.style.display = "none";
+      feedback.textContent = "";
+      next.disabled = true;
+      next.textContent = index === questions.length - 1 ? "Показать результат" : "Следующий вопрос";
+      scoreBox.textContent = `Счёт: ${score}`;
+
+      q.answers.forEach(([letter, zh, ru]) => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.type = "button";
+        button.innerHTML = `<span class="letter">${letter}</span><span><span class="answer-title">${zh}</span><span class="answer-ru">${ru}</span></span>`;
+        button.addEventListener("click", () => choose(button, letter));
+        answers.appendChild(button);
+      });
+    }
+
+    function choose(button, letter) {
+      if (locked) return;
+      locked = true;
+      const q = questions[index];
+      const buttons = [...document.querySelectorAll(".answer")];
+      buttons.forEach((btn) => {
+        const value = btn.querySelector(".letter").textContent;
+        if (value === q.correct) btn.classList.add("correct");
+      });
+      if (letter === q.correct) {
+        score += 1;
+        feedback.textContent = "正确！Правильно. " + q.explain;
+      } else {
+        button.classList.add("wrong");
+        feedback.textContent = "不太对。Не совсем. " + q.explain;
+      }
+      scoreBox.textContent = `Счёт: ${score}`;
+      feedback.style.display = "block";
+      next.disabled = false;
+    }
+
+    function finish() {
+      quiz.classList.add("hidden");
+      result.classList.remove("hidden");
+      finalScore.textContent = `Ваш результат: ${score} из ${questions.length}.`;
+    }
+
+    function reset() {
+      index = 0;
+      score = 0;
+      result.classList.add("hidden");
+      quiz.classList.remove("hidden");
+      render();
+    }
+
+    next.addEventListener("click", () => {
+      if (index === questions.length - 1) finish();
+      else {
+        index += 1;
+        render();
+      }
+    });
+
+    document.getElementById("restart").addEventListener("click", reset);
+    document.getElementById("again").addEventListener("click", reset);
+    render();
+  </script>
+</body>
+</html>
